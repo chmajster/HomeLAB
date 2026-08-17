@@ -1,0 +1,5 @@
+virtual_environment_username = "root@pam"
+virtual_environment_password = "1"
+virtual_environment_endpoint = "https://192.168.1.82:8006/"
+virtual_environment_node_name = "pve"
+datastore_id = "local-lvm"
