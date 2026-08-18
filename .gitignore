@@ -1,4 +1,6 @@
 Teraform/terraform.exe
-/Teraform
+Teraform/.terraform/
 Teraform/terraform.tfstate
-Teraform/terraform.tfstate
+
+Teraform/terraform.tfstate.backup
+Teraform/.terraform.lock.hcl
