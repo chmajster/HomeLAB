@@ -1,21 +1,3 @@
-terraform {
-  required_providers {
-    proxmox = {
-      source  = "bpg/proxmox"
-      version = "~> 0.111.0"
-    }
-  }
-}
-
-provider "proxmox" {
-  endpoint = var.virtual_environment_endpoint
-  username = var.virtual_environment_username
-  password = var.virtual_environment_password
-
-  insecure = true
-}
-
-
 # ============================================================
 # Ubuntu Cloud Image
 # ============================================================
@@ -28,6 +10,8 @@ resource "proxmox_download_file" "ubuntu_cloud_image" {
   url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 
   file_name = "jammy-server-cloudimg-amd64.qcow2"
+  # Overwirte if file exist and is not manage by Teraform
+  overwrite_unmanaged = true
 }
 
 
@@ -118,7 +102,8 @@ resource "proxmox_virtual_environment_vm" "ubuntu_template" {
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   name      = "ubuntu01"
   node_name = var.virtual_environment_node_name
-  vm_id     = 101
+  #vm_id - nie musi byc podawane
+  #vm_id     = 101
 
   started = true
 
@@ -131,7 +116,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   }
 
   agent {
-    enabled = false # wymaga qemu-guest-agent w template
+    enabled = true # wymaga qemu-guest-agent w template
   }
 
   cpu {
@@ -155,3 +140,4 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
     }
   }
 }
+
