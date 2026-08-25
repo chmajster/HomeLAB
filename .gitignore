@@ -1,7 +1,7 @@
-Teraform/terraform.exe
-Teraform/.terraform/
-Teraform/terraform.tfstate
-
-Teraform/terraform.tfstate.backup
-Teraform/.terraform.lock.hcl
-Teraform/terraform.tfstate
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.exe
+terraform/terraform.tfstate
+terraform/terraform.tfstate.*
+terraform/*.tfvars
+!terraform/terraform.tfvars.example

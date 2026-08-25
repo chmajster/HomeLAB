@@ -1,0 +1,11 @@
+virtual_environment_endpoint  = "https://10.0.0.10:8006/"
+virtual_environment_username  = "root@pam"
+virtual_environment_password  = "CHANGE_ME"
+virtual_environment_node_name = "pve"
+
+datastore_id_iso = "local"
+datastore_id_vms = "local-lvm"
+vm_bridge         = "vmbr0"
+
+# Example managed networks. Leave {} when vmbr0 already exists and is managed outside Terraform.
+networks = {}
