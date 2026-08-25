@@ -4,3 +4,4 @@ Teraform/terraform.tfstate
 
 Teraform/terraform.tfstate.backup
 Teraform/.terraform.lock.hcl
+Teraform/terraform.tfstate
