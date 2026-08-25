@@ -62,6 +62,15 @@ module "ubuntu26-template" {
   ubuntu26_vm_id = 9002
 }
 
+module "CloudPortal" {
+  source = "./modules/CloudPortal"
+  node_name        = var.virtual_environment_node_name
+  datastore_id_iso = var.datastore_id_iso
+  datastore_id_vms = var.datastore_id_vms
+  virtual_environment_node_name = var.virtual_environment_node_name
+  ubuntu26_vm_id = 9003
+}
+
 
 resource "proxmox_virtual_environment_vm" "ubuntu22_vm" {
   name      = "ubuntu22"
@@ -97,6 +106,21 @@ resource "proxmox_virtual_environment_vm" "ubuntu26_vm" {
 
   clone {
     vm_id        = module.ubuntu26-template.ubuntu26_template_id
+    full         = true
+    datastore_id = var.datastore_id_vms
+    retries      = 3
+  }
+
+  started = true
+}
+
+
+resource "proxmox_virtual_environment_vm" "cloudportal_vm" {
+  name      = "CloudPortal"
+  node_name = var.virtual_environment_node_name
+
+  clone {
+    vm_id        = module.CloudPortal.cloudportal_template_id
     full         = true
     datastore_id = var.datastore_id_vms
     retries      = 3
