@@ -1,0 +1,114 @@
+Ansible installuje poniże serwery z Terforma
+
+TERAFORM -> PROXMOX Setting -> Creating MAIN Server using CloudInit + Ansible playbook -> 
+
+Pre-Requremtns:
+pvesm set local --content snippets,iso,vztmpl,backup,import
+
+
+
+Pierwszy etap
+
+Teraform  
+Login / Hasło / IP łączenie do proxmox
+Ustaw siec wewnętrzna na 10.0.10.0/24
+w której będą nowe VM-Mki
+
+Tworzy JSON z zmiennych który potem jest przekazywany dalej z niego tworza się pliki konfiguracyjne
+install_HomeLAB-Proxmox-CloudPortal.json
+- Forward DNS server
+- Login do Panelu DNS
+- Haslo do Panelu DNS
+- Token do API PANELU DNS
+- Port działania : 81
+
+
+/root/configs/install_HomeLAB-dns.json
+- IP DNS server
+- Token do API PANELU DNS
+- Login do Panelu
+- Haslo do Panelu
+- Login do PROXMOX
+- Haslo do PROXMOX
+- Token do PROXMOX
+- Hostname Generator Patern
+
+Pobranie Cloud-Int wraz z obrazem Ubuntu24
+
+Cloud-Init
+Techniczne konto do SSH na inne hosty z spredyfinowanym kontem
+Uprawnienia w sudo ers odpowiednie
+Zainstaluj SSH-server 
+
+srl0000 - Main - DNS Server : 81 +  HomeLAB-Proxmox-CloudPortal Server :80
+- Install Ansible ansible-playbook git
+- Ansible playbook zawiera git clone DNS Serwer który pobiera git clone z aplikacja i instaluje je
+Stworz /root/configs/install_HomeLAB-dns.json
+
+https://github.com/chmajster/HomeLAB-DNS
+- Forward DNS server
+- Login do Panelu DNS
+- Haslo do Panelu DNS
+- Token do API PANELU DNS
+- Port działania : 81
+
+- Ansible playbook zawiera git clone HomeLAB-Proxmox-CloudPortal który pobiera git clone z aplikacja i instaluje je
+Stworz install_HomeLAB-Proxmox-CloudPortal.json w katalogu w którym git zostall pobrany file z informacjami odnośnie serwera proxmox, host itp, dane do API DNS aby moc tworzyć wpisy w DNS
+- IP DNS server
+- Token do API PANELU DNS
+- Login do Panelu
+- Haslo do Panelu
+- Login do PROXMOX
+- Haslo do PROXMOX
+- Token do PROXMOX
+- Hostname Generator Patern
+
+HomeLAB-Proxmox-CloudPortal - 
+Generator nazwy hosta (hostname) w ustawieniach.
+Integracja z API DNS w celu utworzenia rekordu hostname wraz z przypisanym adresem IP.
+Historia zapytań oraz poszczególnych etapów tworzenia, zawierająca wysłany payload oraz dane zwrócone przez API.
+Udostępnianie zasobów przez WWW, np. plików setup.sh, setup.ps1 itp. Pliki te są generowane dynamicznie na podstawie ustawień zapisanych w pliku settings.json.
+Plik settings.json jest również pobierany przez odpowiedni skrypt instalacyjny, np. setup.sh lub setup.ps1, a następnie wykorzystywany podczas konfiguracji systemu.
+
+Puppet Master
+- Instalacja Puppet Master
+- Ansible Playbook zawiera git clone który pobiera kod puppet i dodaje do crona job aby pobierac kod puppet co 5 min 
+- Ansible Playbook konfiguruj puppet master
+
+Stworzenia Nowej-VMki
+Wybrana vm-ka generuje się jej hostname zapisuje w dns, i bazie serwerow aplikacji, oraz proxmox 
+Po stworzeniu vm-ki aktywuje się /root/vm-setup.sh
+
+/root/vm-setup.sh
+Cale logi z aplikacji /var/log/vm-setup.sh
+Wykonuje nslookup dla IP-VMki do wybranego DNS serwera 
+Zwrocony adres ustawia hostname vm-mki
+puppet agent -t -certname hostname.xxx 
+
+I leci caly harrdening
+- Ustawienie DNS serwerow
+- Ustawienie Lokalnego Uzytkownika
+- Ustawienie Serwera Czasu
+- Instalowanie wszystkich potrzebnych paczek na OS
+- Ustawienie SSD
+- Ustawienie Jak często Puppet ma chodzic
+
+
+
+
+
+
+
+1. Request o stworzenie Rekordu DNS dla IP 10.0.0.X wolnego dla serwera z hostname srl0000XXX
+Nastepnie tworzy się wpis w SRL003 Hooklogic dla tego serwera
+
+Po stworzeniu IP i rekordu w DNS, wpisu dla serwera w HookLogick
+Zaczyna tworzyć się VM-KA z hostname srl0000XYZ w Proxmox 
+Po stworzeniu serwera wykonywany jest nslookup dla IP, zwracany Adres hostname jest ustawiany na VM-ce, i odpalany jest puppet z hostnamem serwera 
+Weryfkacja Noda jest na czy hostname jest zgodny z wpisem w Puppet Ca1
+
+
+
+
+
+

@@ -1,3 +1,8 @@
+# Proxmox
+
+pvesm set local --content iso,vztmpl,backup,snippets
+
+
 ## Terraform
 
 Umieść w tym katalogu pliki konfiguracyjne Terraform (`*.tf`), a następnie wykonaj poniższe polecenia.
