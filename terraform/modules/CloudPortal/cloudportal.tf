@@ -104,8 +104,8 @@ resource "proxmox_virtual_environment_vm" "ubuntu26_template" {
 
 }
 
-resource "proxmox_virtual_environment_vm" "ubuntu26" {
-  name      = "ubuntu26"
+resource "proxmox_virtual_environment_vm" "cloudportal" {
+  name      = "cloudportal"
   node_name = var.virtual_environment_node_name
   #vm_id - nie musi byc podawane
   #vm_id     = 101
@@ -146,7 +146,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu26" {
   initialization {
     datastore_id = var.datastore_id_vms
     upgrade = false
-    user_data_file_id = proxmox_virtual_environment_file.cloud_init_ubuntu26.id
+    user_data_file_id = proxmox_virtual_environment_file.cloudportal.id
 
     ip_config {
       ipv4 {

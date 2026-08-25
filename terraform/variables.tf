@@ -1,47 +1,40 @@
 variable "virtual_environment_endpoint" {
-  description = "Proxmox API endpoint, e.g. https://10.0.0.10:8006/"
+  description = "proxmox endpoint"
   type        = string
   sensitive   = true
 }
-
 variable "virtual_environment_username" {
-  description = "Proxmox API username"
+  description = "Nazwa użytkownika do Proxmox"
   type        = string
 }
-
 variable "virtual_environment_password" {
-  description = "Proxmox API password"
+  description = "Hasło do Proxmox"
   type        = string
   sensitive   = true
 }
 
 variable "virtual_environment_node_name" {
-  description = "Proxmox node name"
+  description = "Nazwa clustra"
   type        = string
 }
 
 variable "datastore_id_vms" {
-  description = "Datastore used for VM disks"
+  description = "datastore_id_vms"
   type        = string
 }
 
 variable "datastore_id_iso" {
-  description = "Datastore used for cloud image imports"
+  description = "Datastore dla obrazów ISO/import"
   type        = string
 }
 
-variable "vm_bridge" {
-  description = "Default bridge used by templates and servers"
+variable "datastore_id_files" {
+  description = "Datastore dla obrazów ISO/import"
   type        = string
-  default     = "vmbr0"
 }
 
-variable "networks" {
-  description = "Optional Linux bridges managed by Terraform"
-  type = map(object({
-    bridge  = string
-    address = optional(string)
-    comment = optional(string)
-  }))
-  default = {}
+variable "datastore_id_vms_hdd" {
+  description = "Datastore dla obrazów ISO/import"
+  type        = string
 }
+
