@@ -7,6 +7,8 @@ module "network" {
   node_name = var.virtual_environment_node_name
 
   networks = {
+
+  
     dev = {
       bridge  = var.dev_network_device
       address = var.dev_network_address

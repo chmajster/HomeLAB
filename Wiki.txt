@@ -1,3 +1,18 @@
+Sumaryki
+
+Run Teraform Code to create a PROXMOX settup and templates
+create network devices, dev, non-prod, prod
+
+main-server -> 10.0.0.11/24 
+install dns app
+install dhcp app
+install cloud portal 
+
+How works create a vm by cloud portal
+Cloud portal -> API do proxmox -> Create VM based on Template by clonning -> inital hardening -> reboot vm -> run ansible playbook -> vm up and runnning 
+
+
+
 Ansible installuje poniże serwery z Terforma
 
 TERAFORM -> PROXMOX Setting -> Creating MAIN Server using CloudInit + Ansible playbook -> 

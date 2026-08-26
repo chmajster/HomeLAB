@@ -38,65 +38,65 @@ resource "proxmox_virtual_environment_file" "cloud_init_ubuntu22" {
 
 }
 
-resource "proxmox_virtual_environment_vm" "ubuntu22_template" {
-  name      = "ubuntu22-template"
-  node_name = var.virtual_environment_node_name
-  vm_id     = 9001
+# resource "proxmox_virtual_environment_vm" "ubuntu22_template" {
+#   name      = "ubuntu22-template"
+#   node_name = var.virtual_environment_node_name
+#   vm_id     = 9001
 
-  template = true
-  started  = false
+#   template = true
+#   started  = false
 
-  machine     = "q35"
-  bios        = "ovmf"
-  description = "Managed by Terraform"
+#   machine     = "q35"
+#   bios        = "ovmf"
+#   description = "Managed by Terraform"
 
-  cpu {
-    cores = 2
-    type  = "host"
-  }
+#   cpu {
+#     cores = 2
+#     type  = "host"
+#   }
 
-  agent {
-    enabled = true # wymaga qemu-guest-agent w template
-  }
+#   agent {
+#     enabled = true # wymaga qemu-guest-agent w template
+#   }
 
-  memory {
-    dedicated = 2048
-  }
+#   memory {
+#     dedicated = 2048
+#   }
 
-  efi_disk {
-    datastore_id = var.datastore_id_vms
-    type         = "4m"
-  }
+#   efi_disk {
+#     datastore_id = var.datastore_id_vms
+#     type         = "4m"
+#   }
 
-  # SYSTEMOWY DYSK UBUNTU
-  disk {
-    datastore_id = var.datastore_id_vms
-    import_from  = proxmox_download_file.ubuntu22_cloud_image_download.id
+#   # SYSTEMOWY DYSK UBUNTU
+#   disk {
+#     datastore_id = var.datastore_id_vms
+#     import_from  = proxmox_download_file.ubuntu22_cloud_image_download.id
 
-    interface = "virtio0"
-    iothread  = true
-    discard   = "on"
-    size      = 40
-  }
+#     interface = "virtio0"
+#     iothread  = true
+#     discard   = "on"
+#     size      = 40
+#   }
 
-  # CLOUD-INIT
-  initialization {
-    datastore_id = var.datastore_id_vms
+#   # CLOUD-INIT
+#   initialization {
+#     datastore_id = var.datastore_id_vms
 
-    ip_config {
-      ipv4 {
-        address = "dhcp"
-      }
-    }
-  }
+#     ip_config {
+#       ipv4 {
+#         address = "dhcp"
+#       }
+#     }
+#   }
 
-  network_device {
-    bridge = "vmbr0"
-    model  = "virtio"
-  }
+#   network_device {
+#     bridge = "vmbr0"
+#     model  = "virtio"
+#   }
 
-  operating_system {
-    type = "l26"
-  }
+#   operating_system {
+#     type = "l26"
+#   }
 
-}
+# }
