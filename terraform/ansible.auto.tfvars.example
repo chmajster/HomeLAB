@@ -1,0 +1,21 @@
+# Skopiuj ten plik np. jako ansible.auto.tfvars i ustaw wybrane playbooki.
+# VM, której nie ma w ansible_playbooks, nie uruchomi Ansible.
+
+ansible_playbooks = {
+  # ubuntu22    = "../ansible/playbooks/ubuntu22.yml"
+  # ubuntu24    = "../ansible/playbooks/ubuntu24.yml"
+  # ubuntu26    = "../ansible/playbooks/ubuntu26.yml"
+  # cloudportal = "../ansible/playbooks/cloudportal.yml"
+}
+
+ansible_user = "chris"
+
+# Linux / WSL, gdy Terraform działa wewnątrz Linuxa:
+ansible_command = "ansible-playbook"
+
+# Gdy Terraform uruchamiasz z Windows PowerShell, a Ansible masz w WSL:
+# ansible_command = "wsl ansible-playbook"
+
+# Opcjonalnie:
+# ansible_private_key_file = "~/.ssh/id_ed25519"
+# ansible_extra_args       = "--become"
