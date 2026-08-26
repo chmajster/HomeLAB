@@ -1,15 +1,10 @@
-resource "proxmox_network_linux_bridge" "vmbr0" {
-  node_name = var.node_name
-  name      = "vmbr0"
-}
+resource "proxmox_network_linux_bridge" "networks" {
+  for_each = var.networks
 
-resource "proxmox_network_linux_bridge" "vmbr1" {
   node_name = var.node_name
-  name      = "vmbr1"
-}
 
-resource "proxmox_network_linux_bridge" "vmbr2" {
-  node_name = var.node_name
-  name      = "vmbr2"
+  name      = each.value.bridge
+  address   = each.value.address
+  comment   = each.value.comment
+  autostart = true
 }
-

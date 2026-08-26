@@ -1,38 +1,48 @@
 # ============================================================
-# Ubuntu 26.04 LTS Cloud-init
+# Cloud-init dla CloudPortal
 # ============================================================
 
 
-resource "proxmox_virtual_environment_vm" "cloudportal" {
-  name      = "cloudportal"
+
+resource "proxmox_virtual_environment_file" "CloudPortal" {
+  content_type = "snippets"
+  datastore_id = var.datastore_id_iso
+  node_name    = var.virtual_environment_node_name
+
+  source_raw {
+    data      = file("${path.module}/cloud_inits/cloud_init_portal.cfg")
+    file_name = "cloud_init_portal.yaml"
+  }
+}
+
+
+# ============================================================
+# CloudPortal VM
+# ============================================================
+
+resource "proxmox_virtual_environment_vm" "CloudPortal" {
+  name      = "CloudPortal"
   node_name = var.virtual_environment_node_name
-  #vm_id - nie musi byc podawane
-  #vm_id     = 101
 
   started         = true
   stop_on_destroy = true
 
   bios        = "ovmf"
-  description = "Managed by Terraform Ubuntu1"
+  description = "HomeLAB Cloud Portal - Managed by Terraform"
 
-  # clone {
-  #   import_from  = proxmox_virtual_environment_vm.ubuntu26_template.vm_id
-  #   full         = true
-  #   datastore_id = var.datastore_id_vms
-  #   retries = 3
-  # }
   clone {
-    vm_id = proxmox_virtual_environment_vm.ubuntu26_template.vm_id
-    full = true
+    vm_id        = var.template_id
+    full         = true
     datastore_id = var.datastore_id_vms
-    retries = 3
+    retries      = 3
   }
+
   cpu {
-    cores = 2
+    cores = 4
   }
 
   memory {
-    dedicated = 2048
+    dedicated = 4096
   }
 
   network_device {
@@ -42,15 +52,24 @@ resource "proxmox_virtual_environment_vm" "cloudportal" {
   agent {
     enabled = true
   }
+
   initialization {
     datastore_id = var.datastore_id_vms
-    upgrade = false
-    user_data_file_id = proxmox_virtual_environment_file.cloudportal.id
+    upgrade       = false
+
+    user_data_file_id = proxmox_virtual_environment_file.CloudPortal.id
+
+    # ip_config {
+    #   ipv4 {
+    #     address = "dhcp"
+    #   }
 
     ip_config {
       ipv4 {
-        address = "dhcp"
+        address = "10.0.0.11/24"
+        gateway = "10.0.0.1"
       }
+
     }
   }
 }

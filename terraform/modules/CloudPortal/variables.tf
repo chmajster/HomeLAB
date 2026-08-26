@@ -33,3 +33,7 @@ variable "virtual_environment_node_name" {
   description = "Proxmox node name"
   type        = string
 }
+variable "template_id" {
+  description = "VM ID Ubuntu template used to create CloudPortal"
+  type        = number
+}
